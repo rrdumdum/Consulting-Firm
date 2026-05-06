@@ -1,0 +1,38 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      // In a real app, we'd check a dedicated 'admins' collection or custom claims
+      // For this demo/applet, we allow read for the admin dashboard if authenticated
+      return isSignedIn();
+    }
+
+    // Leads collection
+    match /leads/{leadId} {
+      allow create: if true; // Allow anyone to submit a contact form
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Consultations collection
+    match /consultations/{bookingId} {
+      allow create: if true; // Allow anyone to book a consultation
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Blog posts collection
+    match /posts/{postId} {
+      allow read: if true; // Blog posts are public
+      allow write: if isAdmin();
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "entities": {
+    "BlogPost": {
+      "title": "Blog Post",
+      "description": "A blog post for the consulting firm website.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "content": { "type": "string", "description": "Markdown content" },
+        "excerpt": { "type": "string" },
+        "author": { "type": "string" },
+        "publishedAt": { "type": "string", "format": "date-time" },
+        "image": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["title", "slug", "content", "publishedAt"]
+    },
+    "Lead": {
+      "title": "Contact Lead",
+      "description": "A submission from the contact form.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "company": { "type": "string" },
+        "message": { "type": "string" },
+        "service": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["new", "contacted", "closed"] }
+      },
+      "required": ["name", "email", "message", "createdAt"]
+    },
+    "Consultation": {
+      "title": "Consultation Booking",
+      "description": "A scheduled consultation request.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "time": { "type": "string" },
+        "service": { "type": "string" },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "date", "time", "createdAt"]
+    }
+  },
+  "firestore": {
+    "posts": {
+      "schema": "BlogPost",
+      "description": "Collection of blog posts"
+    },
+    "leads": {
+      "schema": "Lead",
+      "description": "Collection of contact leads"
+    },
+    "consultations": {
+      "schema": "Consultation",
+      "description": "Collection of consultation bookings"
+    }
+  }
+}
